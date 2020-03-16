@@ -1,4 +1,4 @@
-from data_loader import DataLoader
+import re
 
 
 class HMMBasic:
@@ -90,3 +90,15 @@ class HMMBasic:
                     num_errors_baseline += 1
             sum_error += num_errors_baseline / data_test.values[idx][1].__len__()
         return 1 - (sum_error / data_test.__len__())
+
+    def predict_raw_text(self, text):
+        text = re.sub(r'\n+', ' ', text)
+        text = re.sub(r' +', ' ', text)
+        result = list()
+        for idx_word, word in enumerate(text.split(' ')):
+            predict_tag = self.dict_word_tag_baseline.get(word, '')
+            if predict_tag == '':
+                result.append((word, 'NNP'))
+            else:
+                result.append((word, predict_tag))
+        return result

@@ -30,6 +30,7 @@ class DataLoader:
             })
         data_df = pd.DataFrame(data_df)
         self.data_train, self.data_test = train_test_split(data_df, test_size=0.2, random_state=42)
+        print('\nAll data is loaded!!')
 
     @staticmethod
     def clean_split_data(_file_name):
