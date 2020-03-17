@@ -32,6 +32,22 @@ class DataLoader:
         self.data_train, self.data_test = train_test_split(data_df, test_size=0.2, random_state=42)
         print('\nAll data is loaded!!')
 
+    def transform_data(self, sub_train=-1, sub_test=-1):
+        train_transformed = list()
+        test_transformed = list()
+        for line in self.data_train.values:
+            tmp_bl = list()
+            for i in line[1]:
+                tmp_bl.append((i['word'], i['tag']))
+            train_transformed.append(tmp_bl)
+        for line in self.data_test.values:
+            tmp_bl = list()
+            for i in line[1]:
+                tmp_bl.append((i['word'], i['tag']))
+            test_transformed.append(tmp_bl)
+
+        return train_transformed[:sub_train], test_transformed[:sub_test]
+
     @staticmethod
     def clean_split_data(_file_name):
         sentences = list(map(
