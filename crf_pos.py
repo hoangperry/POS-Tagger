@@ -60,7 +60,7 @@ if __name__ == '__main__':
     if mini_data:
         dt_train, dt_test = dloader.transform_data(
             sub_train=1000,
-            sub_test=1000
+            sub_test=100
         )
     else:
         dt_train, dt_test = dloader.transform_data()
@@ -82,6 +82,7 @@ if __name__ == '__main__':
             if tt == tp:
                 same += 1
             _sum += 1
+
     print("perc: ", same / _sum)
     print('Saving model to pos_model.crf')
     pickle.dump(crf, open('pos_model.crf', mode='wb'))
