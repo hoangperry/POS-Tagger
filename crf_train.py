@@ -1,6 +1,6 @@
 import pickle
-from data_loader import DataLoader
 import sklearn_crfsuite
+from utils.data_loader import DataLoader
 
 mini_data = True
 
@@ -84,5 +84,5 @@ if __name__ == '__main__':
             _sum += 1
 
     print("perc: ", same / _sum)
-    print('Saving model to >>> crf_pos_model.crf')
-    pickle.dump(crf, open('crf_pos_model.crf', mode='wb'))
+    print('Saving model to >>> model/crf_pos_model.crf')
+    pickle.dump(crf, open('model/crf_pos_model.crf', mode='wb'))

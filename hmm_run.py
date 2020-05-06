@@ -1,4 +1,4 @@
-import pickle
+from utils import hmm_model
 
 
 if __name__ == '__main__':
@@ -9,11 +9,12 @@ if __name__ == '__main__':
     print('***  NLP - 504045             ***')
     print('*********************************')
 
-    hmm_model = pickle.load(open('hmm_pos.hmm', 'rb'))
+    hmm_basic = hmm_model.HMMBasic().load('model/hmm_pos.hmm')
+
     is_loop = True
     while is_loop:
         input_text = input('Enter a senteces: ')
-        output = hmm_model.predict_raw_text(input_text)
+        output = hmm_basic.predict_raw_text(input_text)
         print(output)
         _again = input('Do you want to try again (Enter y/n): ')
         if _again.strip().lower() not in ['y', 'n']:
