@@ -1,4 +1,5 @@
 import re
+import pickle
 
 
 class HMMBasic:
@@ -17,7 +18,7 @@ class HMMBasic:
                 self.train_li_words.append(i['word'])
                 self.train_li_tags.append(i['tag'])
 
-    def load_date_to_dict_tag(self):
+    def load_data_to_dict_tag(self):
         for i in range(self.num_words_train - 1):
             outer_key = self.train_li_tags[i]
             inner_key = self.train_li_tags[i + 1]
@@ -54,7 +55,7 @@ class HMMBasic:
 
     def train(self, data_train):
         self.load_data_train(data_train)
-        self.load_date_to_dict_tag()
+        self.load_data_to_dict_tag()
 
         self.dict2_tag_follow_tag_['.'] = self.dict2_tag_follow_tag_.get('.', {})
         new_fl_tag = self.dict2_tag_follow_tag_['.'].get(self.train_li_tags[0], 0)
@@ -68,6 +69,7 @@ class HMMBasic:
         self.dict2_word_tag[outer_key] = self.dict2_word_tag.get(outer_key, {})
         self.dict2_word_tag[outer_key][inner_key] = self.dict2_word_tag[outer_key].get(inner_key, 0)
         self.dict2_word_tag[outer_key][inner_key] += 1
+
         self.transform_probability()
 
     def eval(self, data_test):
@@ -96,9 +98,16 @@ class HMMBasic:
         text = re.sub(r' +', ' ', text)
         result = list()
         for idx_word, word in enumerate(text.split(' ')):
-            predict_tag = self.dict_word_tag_baseline.get(word, '')
+            predict_tag = self.dict_word_tag_baseline.get(
+                word, ''
+            )
             if predict_tag == '':
                 result.append((word, 'NNP'))
             else:
                 result.append((word, predict_tag))
         return result
+
+    @staticmethod
+    def load(model_path):
+        model_ = pickle.load(open(model_path, 'rb'))
+        return model_
