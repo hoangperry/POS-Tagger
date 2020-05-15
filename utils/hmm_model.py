@@ -6,21 +6,21 @@ def viterbi(_obs, _states, _s_pro, _t_pro, _e_pro):
     # init
     path = {
         s: []
-        for s in states
+        for s in _states
     }
     curr_pro = dict()
-    for s in states:
-        curr_pro[s] = _s_pro[s] * _e_pro[s][obs[0]]
-    for i in range(1, len(obs)):
+    for s in _states:
+        curr_pro[s] = _s_pro[s] * _e_pro[s][_obs[0]]
+    for i in range(1, len(_obs)):
         last_pro = curr_pro
         curr_pro = {}
-        for curr_state in states:
+        for curr_state in _states:
             max_pro, last_sta = max((
                     (
-                        last_pro[last_state] * _t_pro[last_state][curr_state] * _e_pro[curr_state][obs[i]],
+                        last_pro[last_state] * _t_pro[last_state][curr_state] * _e_pro[curr_state][_obs[i]],
                         last_state
                     )
-                    for last_state in states
+                    for last_state in _states
                 ), key=lambda x: x[0]
             )
 
@@ -29,7 +29,7 @@ def viterbi(_obs, _states, _s_pro, _t_pro, _e_pro):
 
     max_pro = -1
     max_path = None
-    for s in states:
+    for s in _states:
         path[s].append(s)
         if curr_pro[s] > max_pro:
             max_path = path[s]
